@@ -35,6 +35,10 @@ exports.getNowPlaying = async({username, apiKey}) => {
         json: true
     });
 
+    //console.log(res.body);
+    //console.log(res.body.recenttracks.track);
+    //console.log(res.body.recenttracks.track[0].image);
+
     // Track could be null, default it to a blank array in that case.
     const latestTracks = res.body.recenttracks.track || [];
 

@@ -23,18 +23,25 @@ client.on("ready", () => {
             // Get the event currently occuring by comparing the previous track polled to the latest.
             const { event, track } = getEvent(prev, curr);
 
+            //console.log(track.image[2]['#text']);
+
             // A new track is now playing, so set the discord status to that track.
             if (event === "nowPlaying") {
-                const startTimestamp = new Date();
+                const startTimestamp = Math.round(Date.now() / 1000);
+                //client.user.setActivity('Yandex Music', { type: 'Listening' });
+                
                 await client.setActivity({
                     details: track.name,
-                    state: `by ${track.artist['#text']}`,
-                    startTimestamp,
-                    largeImageKey: process.env.LARGE_IMAGE_KEY,
-                    largeImageText: process.env.LARGE_IMAGE_TOOLTIP,
+                    state: `${track.artist['#text']}`,
+                    startTimestamp: startTimestamp-5,
+                    largeImageKey: track.image[2]['#text'],
+                    largeImageText: track.name + " - " + track.artist['#text'],
                     smallImageKey: process.env.SMALL_IMAGE_KEY,
                     smallImageText: process.env.SMALL_IMAGE_TOOLTIP,
-                    instance: false,
+                    instance: true,
+                    buttons: [
+                        {label: "СЛУШАТЬ", url:"https://music.yandex.ru/five"}
+                    ]
                 });
                 console.log(`Now playing ${track.name} by ${track.artist['#text']}`);
 
