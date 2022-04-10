@@ -29,18 +29,22 @@ client.on("ready", () => {
             if (event === "nowPlaying") {
                 const startTimestamp = Math.round(Date.now() / 1000);
                 //client.user.setActivity('Yandex Music', { type: 'Listening' });
+                let img = "";
                 
+                if(track.image[2]['#text'])
+                img = track.image[2]['#text'];
+
                 await client.setActivity({
                     details: track.name,
                     state: `${track.artist['#text']}`,
                     startTimestamp: startTimestamp-5,
-                    largeImageKey: track.image[2]['#text'],
+                    largeImageKey: img,
                     largeImageText: track.name + " - " + track.artist['#text'],
                     smallImageKey: process.env.SMALL_IMAGE_KEY,
                     smallImageText: process.env.SMALL_IMAGE_TOOLTIP,
                     instance: true,
                     buttons: [
-                        {label: "СЛУШАТЬ", url:"https://music.yandex.ru/five"}
+                        {label: "СЛУШАТЬ", url:"https://music.yandex.ru/search?text=" + encodeURIComponent(track.name + " - " + track.artist['#text'])}
                     ]
                 });
                 console.log(`Now playing ${track.name} by ${track.artist['#text']}`);
